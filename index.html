@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>じぶん診断</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f7f5f2;
+      --card:#ffffff;
+      --text:#2f2e2d;
+      --muted:#6b6b6b;
+      --line:#e9e4df;
+      --accent:#b8aaa2;
+      --accent2:#6b7a8f;
+      --ok:#2f7d5d;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      padding:24px;
+      font-family:"Noto Sans JP", system-ui, -apple-system, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.75;
+    }
+    .container{
+      max-width: 920px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      padding: 22px;
+    }
+    header{
+      text-align:center;
+      padding: 4px 0 14px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size: 1.6rem;
+      letter-spacing: .02em;
+    }
+    .subtitle{
+      margin:0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+    .pill{
+      display:inline-block;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background:#faf9f8;
+      color:#4a4846;
+      font-size:.85rem;
+    }
+
+    .grid{
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr;
+      margin-top: 14px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background:#fff;
+    }
+
+    .progress{
+      height: 10px;
+      background:#efeae6;
+      border-radius: 999px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width .2s ease;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content: space-between;
+      flex-wrap:wrap;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .qwrap{
+      display:grid;
+      gap:12px;
+      margin-top: 12px;
+    }
+    .q{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background:#fbfbfb;
+    }
+    .qhead{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom: 10px;
+    }
+    .qno{
+      min-width: 46px;
+      height: 28px;
+      padding: 0 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 999px;
+      background:#f2efec;
+      border:1px solid var(--line);
+      font-weight:700;
+      font-size:.9rem;
+      color:#4a4846;
+    }
+    .qtext{ margin:0; font-size: 1rem; }
+
+    .choices{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .choice{
+      flex:1;
+      min-width: 180px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      border-radius: 12px;
+      background:#fff;
+      cursor:pointer;
+      transition: transform .08s, border-color .12s;
+      user-select:none;
+    }
+    .choice:hover{
+      transform: translateY(-1px);
+      border-color:#d9d1cc;
+    }
+    .choice input{ transform: scale(1.12); }
+
+    .btnrow{
+      display:flex;
+      gap:10px;
+      margin-top: 12px;
+    }
+    button{
+      flex:1;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      font-size: 1rem;
+      background: var(--accent);
+      color:#fff;
+      transition: transform .08s, filter .15s;
+    }
+    button:hover{ transform: translateY(-1px); filter: brightness(.98); }
+    button.secondary{
+      background:#fff;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    button.ghost{
+      background:#f7f5f2;
+      color:#4a4846;
+      border:1px solid var(--line);
+    }
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .note{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* result */
+    #result{ display:none; }
+    .resultTop{
+      text-align:center;
+      padding: 4px 0 2px;
+    }
+    .resultTop h2{
+      margin:0 0 6px;
+      font-size: 1.25rem;
+    }
+
+    .topCards{
+      display:grid;
+      gap:12px;
+      grid-template-columns: repeat( auto-fit, minmax(220px, 1fr) );
+      margin-top: 12px;
+    }
+    .topCard{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background:#fff;
+      text-align:center;
+    }
+    .topImg{
+      width: 100%;
+      max-width: 240px;
+      height: 180px;
+      object-fit: contain;
+      display:block;
+      margin: 6px auto 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background:#faf9f8;
+    }
+    .topName{
+      font-weight:800;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    .topScore{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .scoreTable{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      background:#fff;
+      border-radius: 14px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .scoreTable th, .scoreTable td{
+      padding: 10px 12px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      font-size: .95rem;
+      vertical-align: middle;
+    }
+    .scoreTable th{ background:#faf9f8; }
+    .typeCell{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .typeIcon{
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 10px;
+      border:1px solid var(--line);
+      background:#fff;
+      flex: 0 0 auto;
+    }
+    .bar{
+      height: 10px;
+      border-radius: 999px;
+      background: #efeae6;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .bar > div{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--ok), var(--accent2));
+    }
+
+    /* Share box */
+    .shareBox{
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #faf9f8;
+    }
+    .shareTitle{
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+    }
+    .shareHelp{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .shareText{
+      width: 100%;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 12px;
+      font-family: inherit;
+      line-height: 1.6;
+      background: #fff;
+    }
+    .shareButtons{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .shareBtn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #333;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .shareBtn.primary{
+      background: var(--accent2);
+      color: #fff;
+      border: none;
+    }
+    @media (max-width: 640px){
+      body{ padding: 14px; }
+      h1{ font-size: 1.35rem; }
+      .choice{ min-width: 140px; }
+      .btnrow{ flex-direction: column; }
+      .shareButtons{ grid-template-columns: 1fr 1fr; }
+      .topImg{ height: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>じぶん診断</h1>
+      <p class="subtitle">〇 / △ / ×で答える（各タイプから7問ずつランダム出題）</p>
+      <span class="pill">配点：〇=1点 / △=0.5点 / ×=0点（各タイプ満点7点）</span>
+    </header>
+
+    <div class="grid">
+      <!-- Quiz -->
+      <section class="card" id="quizCard">
+        <div class="progress" aria-label="進捗">
+          <div id="progressFill"></div>
+        </div>
+
+        <div class="row">
+          <div id="pageInfo">1 / 7 ページ（全63問）</div>
+          <div id="answeredInfo">このページ：0 / 9 回答</div>
+        </div>
+
+        <form id="quizForm">
+          <div id="questionArea" class="qwrap"></div>
+
+          <div class="btnrow">
+            <button type="button" class="secondary" id="prevBtn">戻る</button>
+            <button type="button" id="nextBtn">次へ</button>
+            <button type="submit" id="submitBtn" style="display:none;">結果を見る</button>
+          </div>
+
+          <p class="note">
+            ※ページ内は全問回答が必要です（戻るは未回答でもOK）<br>
+            ※同点の場合はトップをすべて表示します。
+          </p>
+        </form>
+      </section>
+
+      <!-- Result -->
+      <section class="card" id="result">
+        <div class="resultTop">
+          <h2>診断結果</h2>
+          <p class="subtitle" id="topSummary"></p>
+        </div>
+
+        <div class="topCards" id="topCards"></div>
+
+        <table class="scoreTable" id="scoreTable">
+          <thead>
+            <tr>
+              <th style="width:220px;">タイプ</th>
+              <th style="width:160px;">スコア（/7）</th>
+              <th>割合</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- シェア用テキスト -->
+        <div class="shareBox" id="shareBox">
+          <h3 class="shareTitle">シェア用テキスト</h3>
+          <p class="shareHelp">自動生成された文章をそのまま投稿できます（必要なら編集OK）</p>
+
+          <textarea id="shareText" class="shareText" rows="7"></textarea>
+
+          <div class="shareButtons">
+            <button type="button" class="shareBtn primary" id="copyShareBtn">コピー</button>
+            <button type="button" class="shareBtn" id="nativeShareBtn">共有する</button>
+            <a class="shareBtn" id="xShareLink" target="_blank" rel="noopener">Xでシェア</a>
+            <a class="shareBtn" id="lineShareLink" target="_blank" rel="noopener">LINEで送る</a>
+          </div>
+
+          <p class="note">※統計目的で、地域（国/都道府県/市区町村）・端末情報・匿名化したIPを保存する場合があります。</p>
+        </div>
+
+        <div class="btnrow" style="margin-top:14px;">
+          <button type="button" class="ghost" id="retryBtn">もう一度（再抽出・再シャッフル）</button>
+        </div>
+
+        <p class="note" style="text-align:center;">
+          ※これは簡易診断です。あくまで「傾向」としてご活用ください。
+        </p>
+      </section>
+    </div>
+  </div>
+
+<script>
+  /***********************
+   * 設定：GAS WebアプリURL
+   ***********************/
+  const GAS_WEBAPP_URL = "ここにGASのWebアプリURLを貼る";
+
+  /***********************
+   * タイプ定義（表示名＋画像）
+   ***********************/
+  const TYPES = [
+    { id:"silver",    name:"シルバータイプ",   img:"silver.png" },
+    { id:"pink",      name:"ピンクタイプ",     img:"pink.png" },
+    { id:"gold",      name:"ゴールドタイプ",   img:"gold.png" },
+    { id:"purple",    name:"パープルタイプ",   img:"purple.png" },
+    { id:"navy",      name:"ネイビータイプ",   img:"navy.png" },
+    { id:"green",     name:"グリーンタイプ",   img:"green.png" },
+    { id:"yellow",    name:"イエロータイプ",   img:"yellow.png" },
+    { id:"red",       name:"レッドタイプ",     img:"red.png" },
+    { id:"turquoise", name:"ターコイズタイプ", img:"turquoise.png" }
+  ];
+
+  /***********************
+   * 設問（各10問）
+   ***********************/
+  const QUESTIONS_BY_TYPE = {
+    silver: [
+      "ちゃんとやりたくて行動したのに、まじめすぎると言われることがある",
+      "休んだり遊んだりすると、これでいいのかな？と思ってしまう",
+      "やるべきことをしっかりやると、自分に自信が持てる",
+      "遅刻は許せないし、約束は必ず守ってほしい",
+      "感情を伝えるよりも正しく伝えることを優先することが多い",
+      "ルールや決まりごとがちゃんと守られていると、やる気が出る",
+      "自分がしっかりしないと、周りが困る気がしてしまう",
+      "ミスがあることが許せないから、細かいところまで確認する",
+      "正しいこと、間違っていることを、はっきりさせたくなる",
+      "ダメなものはダメだと、はっきり伝えたくなることがある"
+    ],
+    pink: [
+      "誰かが困っていると、ほっとけなくて、すぐに手を出してしまう",
+      "どんな人とでも和気あいあいと話ができ、楽しいと感じる",
+      "誰かを助けたとき、相手が笑顔になると、それだけで嬉しい",
+      "身近な人を楽しませ、もてなすことが大好きだ",
+      "自分がしてあげたことに感謝されないと嫌な気持ちになる",
+      "相手のいいところを見つけると、素直に伝えたくなる",
+      "プレゼントやおすそ分けをするのが好きで、つい、みんなにあげたくなる",
+      "人の役に立つなら、自分のやるべきことを後回しにしてしまうことがよくある",
+      "人からお願いされると、やることがいっぱいな時でも、断れない",
+      "仲の良い人が他の人と仲良くしていると、すごくモヤモヤする"
+    ],
+    gold: [
+      "自分がうまくいっていないと周りから思われるのがイヤだ",
+      "見た目や話し方がキマると、気分が上がる",
+      "まわりから期待されないとやる気が出ない",
+      "頑張ったことは、ちゃんと見てもらいたいと思う",
+      "周りの人が成功すると心がざわざわする",
+      "どうせやるなら一番を取りたいが頑張っている姿は見られたくない",
+      "自信がない部分を人に見せたくない",
+      "効率良く行動したい、ムダなことをしたくない",
+      "もっと努力すれば、もっと成長できるのに！ってよく思う",
+      "うまくいったのに周りから認めてもらえないと、とてもガッカリする"
+    ],
+    purple: [
+      "よく「個性的」と言われることがあり、それが嬉しい",
+      "普通の人生よりも、自分だけの特別な人生にしたい",
+      "リードしたくないし、指示されたくない",
+      "自分が好きだと思えることじゃないと、やる気が出ない",
+      "ルールや一般的常識よりも、自分らしさを大切にしたい",
+      "勘が鋭いほうだ",
+      "妄想するのが好き",
+      "作りたいと思ったものを一人でもくもくと作るのが好き",
+      "センスやファッションに自分なりのこだわりがある",
+      "本当はこう思ってるんでしょ？と決めつけられて言われるのがイヤだ"
+    ],
+    navy: [
+      "ひとりでいる方が気楽でいい",
+      "目立つとあれこれ聞かれるのがしんどいから、静かにしている",
+      "周りの親切を素直に受け取れず勘ぐってしまうことがある",
+      "自分の複雑な気持ちを理解できる人は少ないし、理解してほしいとも思わない",
+      "気になったことをとことん調べるのがすごく楽しい",
+      "遊びに行く直前になると、行きたくなくなる",
+      "もめごとには関わりたくないし、関わらない",
+      "集中したら周りがまったく気にならない",
+      "すれ違う人の人間観察をして楽しんでいる",
+      "自分の興味のあること以外、ほとんど意識に入らない"
+    ],
+    green: [
+      "「この人なら大丈夫」って思えたら、なんでも素直に話せるようになる",
+      "リーダー的な立ち位置よりも仲間をサポートすることが多い",
+      "慎重になりすぎて、なかなか踏み出せないことがある",
+      "人から指示されたことをする方が行動しやすい",
+      "自分から声をかけるのは勇気がいるが、一人でいるより集団で行動する方が好き",
+      "「これをやったら怒られる」がわかるので、やらないようにしている",
+      "決まったルールでも、本当に正しいのかと考えてしまう",
+      "コツコツ、たんたんと作業するのが好き",
+      "今後どうなるかわからない状況になると、立ち止まってよく調べたり相談したりする",
+      "いつもは慎重だが、やるっ！と決めたら、やらなかったのがウソのようにものすごくやる！"
+    ],
+    yellow: [
+      "落ち込んでも、すぐに立ち直る",
+      "楽しかったのに、急に飽きる",
+      "お金があると、後先考えずに欲しいものを買ってしまう",
+      "おもしろそうなものは、すぐに試してみたくなる",
+      "常に何かしていないと落ち着かない",
+      "何かをしていても楽しいことが見つかると、すぐそっちに気が向く",
+      "いろんな人に出逢うことが好き",
+      "細かいことは考えず、直感で動く",
+      "やりたいことが多すぎて、どれから手をつけるか迷う",
+      "みんなと楽しいことをどんどんやりたい"
+    ],
+    red: [
+      "自分の意見をはっきり伝えるほうだ",
+      "気づいたら、自分が中心になっていることが多い",
+      "新しいことをするときに、今までやってきたことでも不要と思えばスパッと手放せる",
+      "自分が正しいと思ったことは譲れない",
+      "気にかけていた後輩が、成長していると嬉しい",
+      "ハッキリ言わない人にはイライラする",
+      "ものすごく怒っても、割とすぐに忘れる",
+      "誰かに頼るより、自分でやった方が早いと思う",
+      "勝負ごとになると、つい本気になってしまう",
+      "仲間にはとても優しいが、仲間以外にはキビシイ"
+    ],
+    turquoise: [
+      "ひとりでも多数でも、落ち着ける空間ならどちらでもよい",
+      "感情の浮き沈みはあまりない",
+      "普段あまり怒らないが、怒るときは周りがビックリするぐらい怒る",
+      "空気を読み、その場に合わせた行動するのが得意",
+      "「心地よくいること」は私にとってとても大切なことだ",
+      "今の状態で充分だと思っている",
+      "もめごとになりそうなら、自分の意見は言わない",
+      "あまり焦ったり、慌てたりしないねと言われることが多い",
+      "嫌いな人の良いところが見えちゃって、嫌いになりきれない",
+      "ひなたぼっこやなにもせずにぼーっとしている時間が好き"
+    ]
+  };
+
+  /***********************
+   * 設定
+   ***********************/
+  const PICK_PER_TYPE = 7;
+  const QUESTIONS_PER_PAGE = 9;
+  const SCORE_HALF = { maru:2, sankaku:1, batsu:0 };
+
+  /***********************
+   * ユーティリティ
+   ***********************/
+  function shuffleInPlace(array){
+    for(let i=array.length-1; i>0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+  function sampleWithoutReplacement(arr, k){
+    const copy = [...arr];
+    shuffleInPlace(copy);
+    return copy.slice(0, k);
+  }
+  function fmtHalfScore(half){
+    const v = half / 2;
+    return Number.isInteger(v) ? String(v) : v.toFixed(1);
+  }
+
+  function buildQuestionBank(){
+    const bank = [];
+    for(const t of TYPES){
+      const all = QUESTIONS_BY_TYPE[t.id] || [];
+      if(all.length < PICK_PER_TYPE){
+        throw new Error(`${t.name} の設問が ${PICK_PER_TYPE}問 未満です（現在 ${all.length}問）`);
+      }
+      const picked = sampleWithoutReplacement(all, PICK_PER_TYPE);
+      picked.forEach(text => bank.push({ typeId: t.id, typeName: t.name, text }));
+    }
+    shuffleInPlace(bank);
+    return bank;
+  }
+
+  function detectDeviceBrowserOS(){
+    const ua = navigator.userAgent || "";
+    const lower = ua.toLowerCase();
+
+    let device = "PC";
+    if (/iphone|ipad|ipod/i.test(ua)) device = "iPhone/iPad";
+    else if (/android/i.test(ua)) device = "Android";
+
+    let os = "Unknown";
+    if (/iphone|ipad|ipod/i.test(ua)) os = "iOS";
+    else if (/android/i.test(ua)) os = "Android";
+    else if (/windows nt/i.test(lower)) os = "Windows";
+    else if (/mac os x/i.test(lower)) os = "macOS";
+
+    let browser = "Unknown";
+    if (/edg/i.test(ua)) browser = "Edge";
+    else if (/chrome/i.test(ua) && !/edg|opr|opera/i.test(ua)) browser = "Chrome";
+    else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Safari";
+    else if (/firefox/i.test(ua)) browser = "Firefox";
+
+    return { device, browser, os };
+  }
+
+  function getTimeZone(){
+    try{ return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }
+    catch(e){ return ""; }
+  }
+
+  function maskIp(ip){
+    if (!ip) return "";
+    if (ip.includes(".")) {
+      const p = ip.split(".");
+      if (p.length === 4) return `${p[0]}.${p[1]}.${p[2]}.0`;
+      return "";
+    }
+    if (ip.includes(":")) {
+      const parts = ip.split(":").filter(Boolean);
+      return parts.slice(0, 4).join(":") + "::";
+    }
+    return "";
+  }
+
+  async function collectGeo(){
+    const endpoint = "https://ipapi.co/json/";
+    try{
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+
+      const res = await fetch(endpoint, { signal: controller.signal });
+      clearTimeout(timer);
+      if(!res.ok) throw new Error("geo api failed");
+      const j = await res.json();
+
+      return {
+        country: j.country_name || j.country || "",
+        region: j.region || "",
+        city: j.city || "",
+        timezone: j.timezone || getTimeZone(),
+        ipMasked: maskIp(j.ip || "")
+      };
+    }catch(e){
+      return { country:"", region:"", city:"", timezone:getTimeZone(), ipMasked:"" };
+    }
+  }
+
+  async function postToGAS(payload){
+    if(!GAS_WEBAPP_URL || GAS_WEBAPP_URL.includes("ここに")) return false;
+
+    try{
+      await fetch(GAS_WEBAPP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      return true;
+    }catch(e){
+      try{
+        await fetch(GAS_WEBAPP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        return true;
+      }catch(e2){
+        return false;
+      }
+    }
+  }
+
+  function getShareUrl(){
+    const href = location.href;
+    if(href.startsWith("file:")) return "";
+    return href;
+  }
+  function buildShareText(topTypes, rows, maxPossibleHalf){
+    const url = getShareUrl();
+    const topLine = (topTypes.length === 1)
+      ? `【じぶん診断】結果：${topTypes[0].name}（${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`
+      : `【じぶん診断】結果：${topTypes.map(t=>t.name).join("・")}（同点トップ ${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`;
+
+    const scoreLines = rows.map(r => `・${r.name}：${fmtHalfScore(r.scoreHalf)}点`).join("\n");
+    const hashtags = `#じぶん診断 #診断 #自己分析`;
+
+    const parts = [ topLine, "", "スコア一覧", scoreLines, "", hashtags ];
+    if(url) parts.push("", url);
+    return parts.join("\n");
+  }
+
+  function setShareUI(topTypes, rows, maxPossibleHalf){
+    const ta = document.getElementById("shareText");
+    const copyBtn = document.getElementById("copyShareBtn");
+    const nativeBtn = document.getElementById("nativeShareBtn");
+    const xLink = document.getElementById("xShareLink");
+    const lineLink = document.getElementById("lineShareLink");
+    if(!ta) return;
+
+    ta.value = buildShareText(topTypes, rows, maxPossibleHalf);
+
+    if(navigator.share){
+      nativeBtn.style.display = "inline-flex";
+      nativeBtn.onclick = async () => {
+        try{
+          const url = getShareUrl();
+          await navigator.share({
+            title: "じぶん診断",
+            text: ta.value,
+            url: url || undefined
+          });
+        }catch(e){}
+      };
+    }else{
+      nativeBtn.style.display = "none";
+    }
+
+    copyBtn.onclick = async () => {
+      const text = ta.value;
+      try{
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "コピー完了";
+        setTimeout(()=> copyBtn.textContent="コピー", 1200);
+      }catch(e){
+        ta.focus();
+        ta.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "コピー完了";
+        setTimeout(()=> copyBtn.textContent="コピー", 1200);
+      }
+    };
+
+    xLink.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(ta.value);
+    lineLink.href = "https://line.me/R/msg/text/?" + encodeURIComponent(ta.value);
+  }
+
+  let QUESTION_BANK = [];
+  let answers = [];
+  let currentPage = 0;
+
+  const questionArea = document.getElementById("questionArea");
+  const progressFill = document.getElementById("progressFill");
+  const pageInfo = document.getElementById("pageInfo");
+  const answeredInfo = document.getElementById("answeredInfo");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const quizForm = document.getElementById("quizForm");
+
+  function totalPages(){ return Math.ceil(QUESTION_BANK.length / QUESTIONS_PER_PAGE); }
+  function pageRange(){
+    const start = currentPage * QUESTIONS_PER_PAGE;
+    const end = Math.min(start + QUESTIONS_PER_PAGE, QUESTION_BANK.length);
+    return { start, end };
+  }
+
+  function renderChoice(i, key, label){
+    const value = SCORE_HALF[key];
+    return `
+      <label class="choice" for="q${i}-${key}">
+        <input id="q${i}-${key}" type="radio" name="q${i}" value="${value}">
+        <span>${label}</span>
+      </label>
+    `;
+  }
+
+  function updateAnsweredInfo(){
+    const { start, end } = pageRange();
+    let answeredCount = 0;
+    for(let i=start; i<end; i++){
+      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
+      if(selected) answeredCount++;
+    }
+    answeredInfo.textContent = `このページ：${answeredCount} / ${end-start} 回答`;
+  }
+
+  function updateHeader(){
+    const tp = totalPages();
+    pageInfo.textContent = `${currentPage+1} / ${tp} ページ（全${QUESTION_BANK.length}問）`;
+
+    const progress = ((currentPage+1)/tp) * 100;
+    progressFill.style.width = progress + "%";
+
+    prevBtn.style.display = "inline-block";
+    prevBtn.disabled = (currentPage === 0);
+
+    const isLast = (currentPage === tp-1);
+    nextBtn.style.display = isLast ? "none" : "inline-block";
+    submitBtn.style.display = isLast ? "inline-block" : "none";
+
+    updateAnsweredInfo();
+  }
+
+  function renderPage(){
+    const { start, end } = pageRange();
+    questionArea.innerHTML = "";
+
+    for(let i=start; i<end; i++){
+      const q = QUESTION_BANK[i];
+
+      const qEl = document.createElement("div");
+      qEl.className = "q";
+      qEl.innerHTML = `
+        <div class="qhead">
+          <div class="qno">Q${i+1}</div>
+          <p class="qtext">${escapeHtml(q.text)}</p>
+        </div>
+        <div class="choices" role="group" aria-label="回答">
+          ${renderChoice(i, "maru", "〇 あてはまる")}
+          ${renderChoice(i, "sankaku", "△ どちらともいえない")}
+          ${renderChoice(i, "batsu", "× あてはまらない")}
+        </div>
+      `;
+      questionArea.appendChild(qEl);
+
+      const val = answers[i];
+      if(val !== null && val !== undefined){
+        const key = (val === SCORE_HALF.maru) ? "maru"
+                  : (val === SCORE_HALF.sankaku) ? "sankaku"
+                  : "batsu";
+        const radio = document.getElementById(`q${i}-${key}`);
+        if(radio) radio.checked = true;
+      }
+    }
+
+    updateHeader();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function validatePage(){
+    const { start, end } = pageRange();
+    for(let i=start; i<end; i++){
+      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
+      if(!selected){
+        alert(`Q${i+1} が未回答です（このページは全問回答が必要です）`);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function storePageAnswers(){
+    const { start, end } = pageRange();
+    for(let i=start; i<end; i++){
+      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
+      if(selected) answers[i] = parseInt(selected.value, 10);
+    }
+  }
+
+  prevBtn.addEventListener("click", () => {
+    storePageAnswers();
+    if(currentPage === 0) return;
+    currentPage--;
+    renderPage();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if(!validatePage()) return;
+    storePageAnswers();
+    currentPage++;
+    renderPage();
+  });
+
+  quizForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if(!validatePage()) return;
+    storePageAnswers();
+    showResult();
+  });
+
+  quizForm.addEventListener("change", (e) => {
+    if(e.target && e.target.matches('input[type="radio"]')) updateAnsweredInfo();
+  });
+
+  function showResult(){
+    const scoresHalf = {};
+    TYPES.forEach(t => scoresHalf[t.id] = 0);
+
+    for(let i=0; i<QUESTION_BANK.length; i++){
+      const q = QUESTION_BANK[i];
+      const v = answers[i] ?? 0;
+      scoresHalf[q.typeId] += v;
+    }
+
+    const maxHalf = Math.max(...Object.values(scoresHalf));
+    const topTypes = TYPES.filter(t => scoresHalf[t.id] === maxHalf);
+
+    document.getElementById("quizCard").style.display = "none";
+    const resultEl = document.getElementById("result");
+    resultEl.style.display = "block";
+
+    const maxPossibleHalf = PICK_PER_TYPE * SCORE_HALF.maru;
+    const topNames = topTypes.map(t => t.name);
+
+    document.getElementById("topSummary").textContent =
+      (topTypes.length === 1)
+        ? `あなたの最も強い傾向は「${topNames[0]}」です（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`
+        : `同点のトップが複数あります：${topNames.join("・")}（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`;
+
+    const topCards = document.getElementById("topCards");
+    topCards.innerHTML = topTypes.map(t => `
+      <div class="topCard">
+        <img class="topImg" src="${t.img}" alt="${escapeHtml(t.name)}" onerror="this.style.display='none'">
+        <p class="topName">${escapeHtml(t.name)}</p>
+        <p class="topScore">${fmtHalfScore(scoresHalf[t.id])} / ${fmtHalfScore(maxPossibleHalf)} 点</p>
+      </div>
+    `).join("");
+
+    const rows = TYPES
+      .map(t => ({ ...t, scoreHalf: scoresHalf[t.id] }))
+      .sort((a,b) => b.scoreHalf - a.scoreHalf);
+
+    const tbody = document.querySelector("#scoreTable tbody");
+    tbody.innerHTML = "";
+
+    rows.forEach(r => {
+      const pct = Math.round((r.scoreHalf / maxPossibleHalf) * 100);
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <div class="typeCell">
+            <img class="typeIcon" src="${r.img}" alt="${escapeHtml(r.name)}" onerror="this.style.display='none'">
+            <strong>${escapeHtml(r.name)}</strong>
+          </div>
+        </td>
+        <td>${fmtHalfScore(r.scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点</td>
+        <td>
+          <div class="bar"><div style="width:${pct}%"></div></div>
+          <div style="color:#6b6b6b;font-size:.85rem;margin-top:6px;">${pct}%</div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const topForShare = topTypes.map(t => ({ name: t.name, scoreHalf: scoresHalf[t.id] }));
+    const rowsForShare = rows.map(r => ({ name: r.name, scoreHalf: r.scoreHalf }));
+    setShareUI(topForShare, rowsForShare, maxPossibleHalf);
+
+    (async () => {
+      const scoresForSend = {};
+      TYPES.forEach(t => { scoresForSend[t.id] = (scoresHalf[t.id] || 0) / 2; });
+
+      const shareTextEl = document.getElementById("shareText");
+      const shareText = shareTextEl ? shareTextEl.value : "";
+
+      const device = detectDeviceBrowserOS();
+      const geo = await collectGeo();
+
+      await postToGAS({
+        topTypes: topTypes.map(t => t.name),
+        scores: scoresForSend,
+        geo,
+        device,
+        shareText
+      });
+    })();
+
+    resultEl.scrollIntoView({ behavior: "smooth" });
+  }
+
+  document.getElementById("retryBtn").addEventListener("click", () => start());
+
+  function start(){
+    QUESTION_BANK = buildQuestionBank();
+    answers = new Array(QUESTION_BANK.length).fill(null);
+    currentPage = 0;
+
+    document.getElementById("result").style.display = "none";
+    document.getElementById("quizCard").style.display = "block";
+    renderPage();
+  }
+
+  start();
+</script>
+</body>
+</html>
