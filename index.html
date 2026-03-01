@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>簡易じぶん診断</title>
+  <title>じぶん診断</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,11 +38,109 @@
       box-shadow: 0 10px 28px rgba(0,0,0,.08);
       padding: 22px;
     }
-    header{
+
+    /* =====================
+       スタート画面
+    ===================== */
+    #startScreen{
+      display: block;
+      text-align: center;
+      padding: 10px 0 20px;
+    }
+    #startScreen h1{
+      margin: 0 0 6px;
+      font-size: 2rem;
+      letter-spacing: .04em;
+      color: var(--text);
+    }
+    .start-tagline{
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    .start-hero{
+      width: 92%;
+      max-width: 340px;
+      display: block;
+      margin: 0 auto 24px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fafafa;
+    }
+    .start-cards{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 0 0 24px;
+      text-align: left;
+    }
+    .start-card{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: #faf9f8;
+    }
+    .start-card-icon{
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+    .start-card-label{
+      font-size: .82rem;
+      color: var(--muted);
+      margin: 0 0 2px;
+    }
+    .start-card-value{
+      font-size: .98rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text);
+    }
+    .start-notice{
+      margin: 0 0 24px;
+      padding: 14px 18px;
+      background: #f2f7f4;
+      border: 1px solid #c8dfd3;
+      border-radius: 14px;
+      text-align: left;
+    }
+    .start-notice p{
+      margin: 0 0 6px;
+      font-size: .97rem;
+      color: #2f5a45;
+    }
+    .start-notice p:last-child{ margin: 0; }
+    .start-notice strong{ font-weight: 700; }
+    .start-btn{
+      display: inline-block;
+      padding: 16px 60px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(107,122,143,.35);
+      transition: transform .1s, box-shadow .1s;
+      letter-spacing: .05em;
+    }
+    .start-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(107,122,143,.4);
+    }
+    .start-btn:active{ transform: translateY(0); }
+
+    /* =====================
+       クイズ画面（共通ヘッダー）
+    ===================== */
+    #quizScreen{ display: none; }
+    #resultScreen{ display: none; }
+
+    header.quiz-header{
       text-align:center;
       padding: 4px 0 14px;
     }
-    h1{
+    header.quiz-header h1{
       margin:0 0 6px;
       font-size: 1.6rem;
       letter-spacing: .02em;
@@ -62,7 +160,6 @@
       color:#4a4846;
       font-size:.85rem;
     }
-
     .grid{
       display:grid;
       gap:14px;
@@ -75,7 +172,6 @@
       padding: 16px;
       background:#fff;
     }
-
     .progress{
       height: 10px;
       background:#efeae6;
@@ -89,7 +185,6 @@
       background: linear-gradient(90deg, var(--accent2), var(--accent));
       transition: width .2s ease;
     }
-
     .row{
       display:flex;
       gap:10px;
@@ -100,7 +195,6 @@
       color: var(--muted);
       font-size: .92rem;
     }
-
     .qwrap{
       display:grid;
       gap:12px;
@@ -133,7 +227,6 @@
       color:#4a4846;
     }
     .qtext{ margin:0; font-size: 1rem; }
-
     .choices{
       display:flex;
       gap:10px;
@@ -158,7 +251,6 @@
       border-color:#d9d1cc;
     }
     .choice input{ transform: scale(1.12); }
-
     .btnrow{
       display:flex;
       gap:10px;
@@ -192,15 +284,15 @@
       cursor:not-allowed;
       transform:none;
     }
-
     .note{
       margin: 10px 0 0;
       color: var(--muted);
       font-size: .9rem;
     }
 
-    /* result */
-    #result{ display:none; }
+    /* =====================
+       結果画面
+    ===================== */
     .resultTop{
       text-align:center;
       padding: 4px 0 2px;
@@ -209,7 +301,6 @@
       margin:0 0 6px;
       font-size: 1.25rem;
     }
-
     .topCards{
       display:grid;
       gap:12px;
@@ -244,7 +335,6 @@
       color: var(--muted);
       font-size: .95rem;
     }
-
     .scoreTable{
       width:100%;
       border-collapse: collapse;
@@ -289,7 +379,9 @@
       background: linear-gradient(90deg, var(--ok), var(--accent2));
     }
 
-    /* Share box */
+    /* =====================
+       シェアボックス
+    ===================== */
     .shareBox{
       margin-top: 16px;
       padding: 14px;
@@ -334,15 +426,18 @@
       font-weight: 700;
       text-decoration: none;
       cursor: pointer;
+      font-size: .95rem;
     }
     .shareBtn.primary{
       background: var(--accent2);
       color: #fff;
       border: none;
     }
+
     @media (max-width: 640px){
       body{ padding: 14px; }
-      h1{ font-size: 1.35rem; }
+      #startScreen h1{ font-size: 1.6rem; }
+      .start-btn{ padding: 14px 40px; font-size: 1rem; }
       .choice{ min-width: 140px; }
       .btnrow{ flex-direction: column; }
       .shareButtons{ grid-template-columns: 1fr 1fr; }
@@ -352,15 +447,66 @@
 </head>
 
 <body>
-  <div class="container">
-    <header>
+<div class="container">
+
+  <!-- =====================
+       スタート画面
+  ===================== -->
+  <div id="startScreen">
+    <h1>じぶん診断</h1>
+    <p class="start-tagline">あなたの「本来の傾向」を見つける9タイプ診断</p>
+
+    <img class="start-hero"
+         src="main.png"
+         alt="じぶん診断"
+         onerror="this.style.display='none'">
+
+    <!-- 診断概要カード -->
+    <div class="start-cards">
+      <div class="start-card">
+        <div class="start-card-icon">🕐</div>
+        <p class="start-card-label">所要時間の目安</p>
+        <p class="start-card-value">約5〜10分</p>
+      </div>
+      <div class="start-card">
+        <div class="start-card-icon">📝</div>
+        <p class="start-card-label">設問数</p>
+        <p class="start-card-value">全63問・7ページ</p>
+      </div>
+      <div class="start-card">
+        <div class="start-card-icon">⭕</div>
+        <p class="start-card-label">回答方法</p>
+        <p class="start-card-value">〇 / △ / × の3択</p>
+      </div>
+      <div class="start-card">
+        <div class="start-card-icon">🎯</div>
+        <p class="start-card-label">診断結果</p>
+        <p class="start-card-value">9タイプから傾向を表示</p>
+      </div>
+    </div>
+
+    <!-- 注意書き -->
+    <div class="start-notice">
+      <p>💡 <strong>正解・不正解はありません。</strong></p>
+      <p>今の自分の気持ちで、率直に答えてください。</p>
+      <p>深く考えすぎず、パッと思ったことを大切に。</p>
+      <p style="margin-top:10px;">📊 診断結果は9つのタイプのうち、<strong>あなたの傾向が強いものを表示します。</strong></p>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">診断スタート</button>
+  </div>
+
+  <!-- =====================
+       クイズ画面
+  ===================== -->
+  <div id="quizScreen">
+    <header class="quiz-header">
       <h1>じぶん診断</h1>
       <p class="subtitle">〇 / △ / ×で答える（各タイプから7問ずつランダム出題）</p>
       <span class="pill">配点：〇=1点 / △=0.5点 / ×=0点（各タイプ満点7点）</span>
     </header>
 
     <div class="grid">
-      <!-- Quiz -->
       <section class="card" id="quizCard">
         <div class="progress" aria-label="進捗">
           <div id="progressFill"></div>
@@ -386,9 +532,19 @@
           </p>
         </form>
       </section>
+    </div>
+  </div>
 
-      <!-- Result -->
-      <section class="card" id="result">
+  <!-- =====================
+       結果画面
+  ===================== -->
+  <div id="resultScreen">
+    <header class="quiz-header">
+      <h1>じぶん診断</h1>
+    </header>
+
+    <div class="grid">
+      <section class="card">
         <div class="resultTop">
           <h2>診断結果</h2>
           <p class="subtitle" id="topSummary"></p>
@@ -420,8 +576,6 @@
             <a class="shareBtn" id="xShareLink" target="_blank" rel="noopener">Xでシェア</a>
             <a class="shareBtn" id="lineShareLink" target="_blank" rel="noopener">LINEで送る</a>
           </div>
-
-          <p class="note">※シェアは任意となります。</p>
         </div>
 
         <div class="btnrow" style="margin-top:14px;">
@@ -435,14 +589,16 @@
     </div>
   </div>
 
+</div><!-- /.container -->
+
 <script>
   /***********************
    * 設定：GAS WebアプリURL
    ***********************/
-  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyEwgjAekvRcG9BOv5ZZbm0WJSjk3MioFNifqcGehiysfmt-XVL71dKU8rRoiUGPxTO/exec";
+  const GAS_WEBAPP_URL = "ここにGASのWebアプリURLを貼る";
 
   /***********************
-   * タイプ定義（表示名＋画像）
+   * タイプ定義
    ***********************/
   const TYPES = [
     { id:"silver",    name:"シルバータイプ",   img:"silver.png" },
@@ -571,7 +727,7 @@
   };
 
   /***********************
-   * 設定
+   * 設定値
    ***********************/
   const PICK_PER_TYPE = 7;
   const QUESTIONS_PER_PAGE = 9;
@@ -618,26 +774,25 @@
     return bank;
   }
 
+  /***********************
+   * 端末・ジオ情報
+   ***********************/
   function detectDeviceBrowserOS(){
     const ua = navigator.userAgent || "";
     const lower = ua.toLowerCase();
-
     let device = "PC";
     if (/iphone|ipad|ipod/i.test(ua)) device = "iPhone/iPad";
     else if (/android/i.test(ua)) device = "Android";
-
     let os = "Unknown";
     if (/iphone|ipad|ipod/i.test(ua)) os = "iOS";
     else if (/android/i.test(ua)) os = "Android";
     else if (/windows nt/i.test(lower)) os = "Windows";
     else if (/mac os x/i.test(lower)) os = "macOS";
-
     let browser = "Unknown";
     if (/edg/i.test(ua)) browser = "Edge";
     else if (/chrome/i.test(ua) && !/edg|opr|opera/i.test(ua)) browser = "Chrome";
     else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Safari";
     else if (/firefox/i.test(ua)) browser = "Firefox";
-
     return { device, browser, os };
   }
 
@@ -661,16 +816,13 @@
   }
 
   async function collectGeo(){
-    const endpoint = "https://ipapi.co/json/";
     try{
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 4000);
-
-      const res = await fetch(endpoint, { signal: controller.signal });
+      const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
       clearTimeout(timer);
       if(!res.ok) throw new Error("geo api failed");
       const j = await res.json();
-
       return {
         country: j.country_name || j.country || "",
         region: j.region || "",
@@ -685,7 +837,6 @@
 
   async function postToGAS(payload){
     if(!GAS_WEBAPP_URL || GAS_WEBAPP_URL.includes("ここに")) return false;
-
     try{
       await fetch(GAS_WEBAPP_URL, {
         method: "POST",
@@ -702,12 +853,13 @@
           body: JSON.stringify(payload)
         });
         return true;
-      }catch(e2){
-        return false;
-      }
+      }catch(e2){ return false; }
     }
   }
 
+  /***********************
+   * SNSシェア
+   ***********************/
   function getShareUrl(){
     const href = location.href;
     if(href.startsWith("file:")) return "";
@@ -718,11 +870,8 @@
     const topLine = (topTypes.length === 1)
       ? `【じぶん診断】結果：${topTypes[0].name}（${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`
       : `【じぶん診断】結果：${topTypes.map(t=>t.name).join("・")}（同点トップ ${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`;
-
     const scoreLines = rows.map(r => `・${r.name}：${fmtHalfScore(r.scoreHalf)}点`).join("\n");
-    const hashtags = `#じぶん診断 #診断 #自己分析`;
-
-    const parts = [ topLine, "", "スコア一覧", scoreLines, "", hashtags ];
+    const parts = [ topLine, "", "スコア一覧", scoreLines, "", "#じぶん診断 #診断 #自己分析" ];
     if(url) parts.push("", url);
     return parts.join("\n");
   }
@@ -734,44 +883,33 @@
     const xLink = document.getElementById("xShareLink");
     const lineLink = document.getElementById("lineShareLink");
     if(!ta) return;
-
     ta.value = buildShareText(topTypes, rows, maxPossibleHalf);
-
     if(navigator.share){
       nativeBtn.style.display = "inline-flex";
       nativeBtn.onclick = async () => {
         try{
-          const url = getShareUrl();
-          await navigator.share({
-            title: "じぶん診断",
-            text: ta.value,
-            url: url || undefined
-          });
+          await navigator.share({ title:"じぶん診断", text:ta.value, url:getShareUrl()||undefined });
         }catch(e){}
       };
     }else{
       nativeBtn.style.display = "none";
     }
-
     copyBtn.onclick = async () => {
-      const text = ta.value;
       try{
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = "コピー完了";
-        setTimeout(()=> copyBtn.textContent="コピー", 1200);
+        await navigator.clipboard.writeText(ta.value);
       }catch(e){
-        ta.focus();
-        ta.select();
-        document.execCommand("copy");
-        copyBtn.textContent = "コピー完了";
-        setTimeout(()=> copyBtn.textContent="コピー", 1200);
+        ta.focus(); ta.select(); document.execCommand("copy");
       }
+      copyBtn.textContent = "コピー完了";
+      setTimeout(()=> copyBtn.textContent="コピー", 1200);
     };
-
     xLink.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(ta.value);
     lineLink.href = "https://line.me/R/msg/text/?" + encodeURIComponent(ta.value);
   }
 
+  /***********************
+   * 状態
+   ***********************/
   let QUESTION_BANK = [];
   let answers = [];
   let currentPage = 0;
@@ -793,10 +931,9 @@
   }
 
   function renderChoice(i, key, label){
-    const value = SCORE_HALF[key];
     return `
       <label class="choice" for="q${i}-${key}">
-        <input id="q${i}-${key}" type="radio" name="q${i}" value="${value}">
+        <input id="q${i}-${key}" type="radio" name="q${i}" value="${SCORE_HALF[key]}">
         <span>${label}</span>
       </label>
     `;
@@ -804,38 +941,30 @@
 
   function updateAnsweredInfo(){
     const { start, end } = pageRange();
-    let answeredCount = 0;
+    let count = 0;
     for(let i=start; i<end; i++){
-      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
-      if(selected) answeredCount++;
+      if(quizForm.querySelector(`input[name="q${i}"]:checked`)) count++;
     }
-    answeredInfo.textContent = `このページ：${answeredCount} / ${end-start} 回答`;
+    answeredInfo.textContent = `このページ：${count} / ${end-start} 回答`;
   }
 
   function updateHeader(){
     const tp = totalPages();
     pageInfo.textContent = `${currentPage+1} / ${tp} ページ（全${QUESTION_BANK.length}問）`;
-
-    const progress = ((currentPage+1)/tp) * 100;
-    progressFill.style.width = progress + "%";
-
+    progressFill.style.width = ((currentPage+1)/tp * 100) + "%";
     prevBtn.style.display = "inline-block";
     prevBtn.disabled = (currentPage === 0);
-
     const isLast = (currentPage === tp-1);
     nextBtn.style.display = isLast ? "none" : "inline-block";
     submitBtn.style.display = isLast ? "inline-block" : "none";
-
     updateAnsweredInfo();
   }
 
   function renderPage(){
     const { start, end } = pageRange();
     questionArea.innerHTML = "";
-
     for(let i=start; i<end; i++){
       const q = QUESTION_BANK[i];
-
       const qEl = document.createElement("div");
       qEl.className = "q";
       qEl.innerHTML = `
@@ -843,34 +972,29 @@
           <div class="qno">Q${i+1}</div>
           <p class="qtext">${escapeHtml(q.text)}</p>
         </div>
-        <div class="choices" role="group" aria-label="回答">
-          ${renderChoice(i, "maru", "〇 あてはまる")}
-          ${renderChoice(i, "sankaku", "△ どちらともいえない")}
-          ${renderChoice(i, "batsu", "× あてはまらない")}
+        <div class="choices" role="group">
+          ${renderChoice(i,"maru","〇 あてはまる")}
+          ${renderChoice(i,"sankaku","△ どちらともいえない")}
+          ${renderChoice(i,"batsu","× あてはまらない")}
         </div>
       `;
       questionArea.appendChild(qEl);
-
       const val = answers[i];
       if(val !== null && val !== undefined){
-        const key = (val === SCORE_HALF.maru) ? "maru"
-                  : (val === SCORE_HALF.sankaku) ? "sankaku"
-                  : "batsu";
-        const radio = document.getElementById(`q${i}-${key}`);
-        if(radio) radio.checked = true;
+        const key = val===SCORE_HALF.maru?"maru":val===SCORE_HALF.sankaku?"sankaku":"batsu";
+        const r = document.getElementById(`q${i}-${key}`);
+        if(r) r.checked = true;
       }
     }
-
     updateHeader();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top:0, behavior:"smooth" });
   }
 
   function validatePage(){
     const { start, end } = pageRange();
     for(let i=start; i<end; i++){
-      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
-      if(!selected){
-        alert(`Q${i+1} が未回答です（このページは全問回答が必要です）`);
+      if(!quizForm.querySelector(`input[name="q${i}"]:checked`)){
+        alert(`Q${i+1} が未回答です`);
         return false;
       }
     }
@@ -880,8 +1004,8 @@
   function storePageAnswers(){
     const { start, end } = pageRange();
     for(let i=start; i<end; i++){
-      const selected = quizForm.querySelector(`input[name="q${i}"]:checked`);
-      if(selected) answers[i] = parseInt(selected.value, 10);
+      const sel = quizForm.querySelector(`input[name="q${i}"]:checked`);
+      if(sel) answers[i] = parseInt(sel.value, 10);
     }
   }
 
@@ -907,36 +1031,34 @@
   });
 
   quizForm.addEventListener("change", (e) => {
-    if(e.target && e.target.matches('input[type="radio"]')) updateAnsweredInfo();
+    if(e.target?.matches('input[type="radio"]')) updateAnsweredInfo();
   });
 
+  /***********************
+   * 結果表示
+   ***********************/
   function showResult(){
     const scoresHalf = {};
     TYPES.forEach(t => scoresHalf[t.id] = 0);
-
     for(let i=0; i<QUESTION_BANK.length; i++){
-      const q = QUESTION_BANK[i];
-      const v = answers[i] ?? 0;
-      scoresHalf[q.typeId] += v;
+      scoresHalf[QUESTION_BANK[i].typeId] += answers[i] ?? 0;
     }
 
     const maxHalf = Math.max(...Object.values(scoresHalf));
     const topTypes = TYPES.filter(t => scoresHalf[t.id] === maxHalf);
-
-    document.getElementById("quizCard").style.display = "none";
-    const resultEl = document.getElementById("result");
-    resultEl.style.display = "block";
-
     const maxPossibleHalf = PICK_PER_TYPE * SCORE_HALF.maru;
-    const topNames = topTypes.map(t => t.name);
 
+    // 画面切替
+    document.getElementById("quizScreen").style.display = "none";
+    document.getElementById("resultScreen").style.display = "block";
+
+    // トップ表示
     document.getElementById("topSummary").textContent =
-      (topTypes.length === 1)
-        ? `あなたの最も強い傾向は「${topNames[0]}」です（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`
-        : `同点のトップが複数あります：${topNames.join("・")}（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`;
+      topTypes.length === 1
+        ? `あなたの最も強い傾向は「${topTypes[0].name}」です（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`
+        : `同点のトップが複数あります：${topTypes.map(t=>t.name).join("・")}（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`;
 
-    const topCards = document.getElementById("topCards");
-    topCards.innerHTML = topTypes.map(t => `
+    document.getElementById("topCards").innerHTML = topTypes.map(t => `
       <div class="topCard">
         <img class="topImg" src="${t.img}" alt="${escapeHtml(t.name)}" onerror="this.style.display='none'">
         <p class="topName">${escapeHtml(t.name)}</p>
@@ -944,71 +1066,74 @@
       </div>
     `).join("");
 
+    // スコア表
     const rows = TYPES
       .map(t => ({ ...t, scoreHalf: scoresHalf[t.id] }))
       .sort((a,b) => b.scoreHalf - a.scoreHalf);
 
-    const tbody = document.querySelector("#scoreTable tbody");
-    tbody.innerHTML = "";
-
-    rows.forEach(r => {
-      const pct = Math.round((r.scoreHalf / maxPossibleHalf) * 100);
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>
-          <div class="typeCell">
-            <img class="typeIcon" src="${r.img}" alt="${escapeHtml(r.name)}" onerror="this.style.display='none'">
-            <strong>${escapeHtml(r.name)}</strong>
-          </div>
-        </td>
-        <td>${fmtHalfScore(r.scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点</td>
-        <td>
-          <div class="bar"><div style="width:${pct}%"></div></div>
-          <div style="color:#6b6b6b;font-size:.85rem;margin-top:6px;">${pct}%</div>
-        </td>
+    document.querySelector("#scoreTable tbody").innerHTML = rows.map(r => {
+      const pct = Math.round(r.scoreHalf / maxPossibleHalf * 100);
+      return `
+        <tr>
+          <td>
+            <div class="typeCell">
+              <img class="typeIcon" src="${r.img}" alt="${escapeHtml(r.name)}" onerror="this.style.display='none'">
+              <strong>${escapeHtml(r.name)}</strong>
+            </div>
+          </td>
+          <td>${fmtHalfScore(r.scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点</td>
+          <td>
+            <div class="bar"><div style="width:${pct}%"></div></div>
+            <div style="color:#6b6b6b;font-size:.85rem;margin-top:6px;">${pct}%</div>
+          </td>
+        </tr>
       `;
-      tbody.appendChild(tr);
-    });
+    }).join("");
 
-    const topForShare = topTypes.map(t => ({ name: t.name, scoreHalf: scoresHalf[t.id] }));
-    const rowsForShare = rows.map(r => ({ name: r.name, scoreHalf: r.scoreHalf }));
+    // シェアUI
+    const topForShare = topTypes.map(t => ({ name:t.name, scoreHalf:scoresHalf[t.id] }));
+    const rowsForShare = rows.map(r => ({ name:r.name, scoreHalf:r.scoreHalf }));
     setShareUI(topForShare, rowsForShare, maxPossibleHalf);
 
+    // GASへ保存（バックグラウンド）
     (async () => {
-      const scoresForSend = {};
-      TYPES.forEach(t => { scoresForSend[t.id] = (scoresHalf[t.id] || 0) / 2; });
-
+      const scores = {};
+      TYPES.forEach(t => { scores[t.id] = (scoresHalf[t.id]||0) / 2; });
       const shareTextEl = document.getElementById("shareText");
-      const shareText = shareTextEl ? shareTextEl.value : "";
-
       const device = detectDeviceBrowserOS();
       const geo = await collectGeo();
-
       await postToGAS({
         topTypes: topTypes.map(t => t.name),
-        scores: scoresForSend,
+        scores,
         geo,
         device,
-        shareText
+        shareText: shareTextEl ? shareTextEl.value : ""
       });
     })();
 
-    resultEl.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("resultScreen").scrollIntoView({ behavior:"smooth" });
   }
 
-  document.getElementById("retryBtn").addEventListener("click", () => start());
-
-  function start(){
+  /***********************
+   * 画面制御
+   ***********************/
+  function startQuiz(){
     QUESTION_BANK = buildQuestionBank();
     answers = new Array(QUESTION_BANK.length).fill(null);
     currentPage = 0;
 
-    document.getElementById("result").style.display = "none";
-    document.getElementById("quizCard").style.display = "block";
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("quizScreen").style.display = "block";
+    document.getElementById("resultScreen").style.display = "none";
     renderPage();
+    window.scrollTo({ top:0, behavior:"smooth" });
   }
 
-  start();
+  document.getElementById("retryBtn").addEventListener("click", () => {
+    document.getElementById("resultScreen").style.display = "none";
+    document.getElementById("startScreen").style.display = "block";
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
 </script>
 </body>
 </html>
