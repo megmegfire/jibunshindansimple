@@ -39,9 +39,6 @@
       padding: 22px;
     }
 
-    /* =====================
-       スタート画面
-    ===================== */
     #startScreen{
       display: block;
       text-align: center;
@@ -128,9 +125,6 @@
     }
     .start-btn:active{ transform: translateY(0); }
 
-    /* =====================
-       クイズ画面（共通ヘッダー）
-    ===================== */
     #quizScreen{ display: none; }
     #resultScreen{ display: none; }
 
@@ -288,9 +282,6 @@
       font-size: .9rem;
     }
 
-    /* =====================
-       結果画面
-    ===================== */
     .resultTop{
       text-align:center;
       padding: 4px 0 2px;
@@ -312,6 +303,38 @@
       background:#fff;
       text-align:center;
     }
+    .typeDescBox{
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: #f8f7f5;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-align: left;
+    }
+    .typeDescLabel{
+      display: inline-block;
+      margin-bottom: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .typeDescLabel.trait{
+      background: #e8f0fb;
+      color: #3a5a9a;
+    }
+    .typeDescLabel.work{
+      background: #e8f6ef;
+      color: #2a6648;
+    }
+    .typeDescText{
+      margin: 0 0 12px;
+      font-size: .94rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .typeDescText:last-child{ margin-bottom: 0; }
     .topImg{
       width: 100%;
       max-width: 240px;
@@ -377,9 +400,6 @@
       background: linear-gradient(90deg, var(--ok), var(--accent2));
     }
 
-    /* =====================
-       シェアボックス
-    ===================== */
     .shareBox{
       margin-top: 16px;
       padding: 14px;
@@ -447,9 +467,6 @@
 <body>
 <div class="container">
 
-  <!-- =====================
-       スタート画面
-  ===================== -->
   <div id="startScreen">
     <h1>じぶん診断簡易バージョン</h1>
     <p class="start-tagline">あなたの「傾向」を見つける9タイプ診断</p>
@@ -459,7 +476,6 @@
          alt="じぶん診断"
          onerror="this.style.display='none'">
 
-    <!-- 診断概要カード -->
     <div class="start-cards">
       <div class="start-card">
         <p class="start-card-label">所要時間の目安</p>
@@ -479,7 +495,6 @@
       </div>
     </div>
 
-    <!-- 注意書き -->
     <div class="start-notice">
       <p>💡 <strong>正解・不正解はありません。</strong></p>
       <p>今の自分の気持ちで、率直に答えてください。</p>
@@ -490,9 +505,6 @@
     <button class="start-btn" onclick="startQuiz()">診断スタート</button>
   </div>
 
-  <!-- =====================
-       クイズ画面
-  ===================== -->
   <div id="quizScreen">
     <header class="quiz-header">
       <h1>じぶん診断</h1>
@@ -529,9 +541,6 @@
     </div>
   </div>
 
-  <!-- =====================
-       結果画面
-  ===================== -->
   <div id="resultScreen">
     <header class="quiz-header">
       <h1>じぶん診断</h1>
@@ -557,7 +566,6 @@
           <tbody></tbody>
         </table>
 
-        <!-- シェア用テキスト -->
         <div class="shareBox" id="shareBox">
           <h3 class="shareTitle">シェア用テキスト</h3>
           <p class="shareHelp">自動生成された文章をそのまま投稿できます（必要なら編集OK）</p>
@@ -586,14 +594,8 @@
 </div><!-- /.container -->
 
 <script>
-  /***********************
-   * 設定：GAS WebアプリURL
-   ***********************/
   const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyEwgjAekvRcG9BOv5ZZbm0WJSjk3MioFNifqcGehiysfmt-XVL71dKU8rRoiUGPxTO/exec";
 
-  /***********************
-   * タイプ定義
-   ***********************/
   const TYPES = [
     { id:"silver",    name:"シルバータイプ",   img:"silver.png" },
     { id:"pink",      name:"ピンクタイプ",     img:"pink.png" },
@@ -606,9 +608,6 @@
     { id:"turquoise", name:"ターコイズタイプ", img:"turquoise.png" }
   ];
 
-  /***********************
-   * 設問（各10問）
-   ***********************/
   const QUESTIONS_BY_TYPE = {
     silver: [
       "ちゃんとやりたくて行動したのに、まじめすぎると言われることがある",
@@ -721,15 +720,51 @@
   };
 
   /***********************
-   * 設定値
+   * タイプ別説明文
    ***********************/
+  const TYPE_DESCRIPTIONS = {
+    silver: {
+      trait: "見えないところも手を抜かない完璧主義。ルールや計画を重んじます。",
+      work:  "緻密な作業や見直しが得意なため、マニュアルに沿った<strong>コーディング</strong>や、既存サイトの<strong>保守・更新・経理事務</strong>などが得意です。また、指導力もあるため、Webスキルの<strong>メンターや講師業</strong>にも向いています。"
+    },
+    pink: {
+      trait: "人に尽くすお世話好き。数字や売上よりも「感謝されること」にやりがいを感じます。",
+      work:  "1人で黙々と作業するより、人と関わる仕事が向いています。クライアントに寄り添う<strong>オンライン秘書</strong>として、SNSのコメント返信代行やちょっとした画像修正など、相手の「困った」を先回りして助けるホスピタリティあふれる業務が最適です。"
+    },
+    gold: {
+      trait: "目標達成に向けて効率よく動く努力家。カリスマ性があり自己PRが得意です。",
+      work:  "営業職やマーケティング視点を持った仕事。クリック率などの数字を追う<strong>広告バナー制作</strong>や、売上にコミットする<strong>SNS運用代行</strong>などで成果を出すのが得意です。"
+    },
+    purple: {
+      trait: "独自の世界観と豊かな感受性を持つアーティスト。組織の枠にはまるのが苦手です。",
+      work:  "既存のテンプレートを使わない、ゼロから生み出す<strong>Webデザイン</strong>やイラスト・ロゴ制作など、クリエイティブに特化した<strong>フリーランス</strong>。自分のセンスや感性をそのまま商品にする働き方が向いています。"
+    },
+    navy: {
+      trait: "好きなことに没頭し、とことん深掘りするオタク（マニア）気質。人間関係は少し苦手です。",
+      work:  "対人コミュニケーションよりも、1人でPCに向かう仕事。データ分析を活かした<strong>UI/UXデザイン</strong>、論理的思考が必要な<strong>プログラミング</strong>、または専門知識を活かした<strong>マニアックな特化型ブログの運営（アフィリエイト）</strong>などが適職です。"
+    },
+    green: {
+      trait: "慎重でリスクヘッジが得意な日本人タイプ。自分でゼロから決断するのは少し不安を感じます。",
+      work:  "失敗が少なく確実な作業ができるため、<strong>校正（デザインのチェック）</strong>、データ入力、指示を受けて動く<strong>オンライン秘書</strong>がぴったりです。自分でゴリゴリ集客するより、「ココナラ」や「クラウドワークス」にスキルを出品して待つスタイルが安心できます。"
+    },
+    yellow: {
+      trait: "好奇心旺盛で行動力抜群。ただし長期的な計画や重い義務感は苦手です。",
+      work:  "フットワークの軽さと企画力を活かした<strong>イベント企画・運営</strong>や、トレンドを素早く取り入れる<strong>SNS運用代行</strong>。長期の重い案件よりも、短期間でサクサク終わるバナー制作などを複数掛け持ちするパラレルワークが得意です。"
+    },
+    red: {
+      trait: "決断力があり、自分で主導権を握りたいリーダー気質。忖度なく正しい意見が言えます。",
+      work:  "自分が手を動かすだけでなく、チームをまとめる<strong>Webディレクター</strong>や、クライアントに「こうした方が売れますよ」とズバッと提案できる<strong>ビジネスコンサルタント</strong>。自分でコミュニティや組織を立ち上げる働き方が向いています。"
+    },
+    turquoise: {
+      trait: "争いを好まない癒やし系。相手を否定せず、じっくり話を聞く（傾聴）のが得意です。",
+      work:  "数字や納期に追われる競争の激しい仕事はNG。クライアントの想いをじっくりヒアリングして作る<strong>名刺や個人サイトの制作</strong>や、コミュニティの穏やかな<strong>相談役・サポート役</strong>。長期的なプロジェクトをマイペースに進めるのが向いています。"
+    }
+  };
+
   const PICK_PER_TYPE = 7;
   const QUESTIONS_PER_PAGE = 9;
   const SCORE_HALF = { maru:2, sankaku:1, batsu:0 };
 
-  /***********************
-   * ユーティリティ
-   ***********************/
   function shuffleInPlace(array){
     for(let i=array.length-1; i>0; i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -768,9 +803,6 @@
     return bank;
   }
 
-  /***********************
-   * 端末・ジオ情報
-   ***********************/
   function detectDeviceBrowserOS(){
     const ua = navigator.userAgent || "";
     const lower = ua.toLowerCase();
@@ -851,9 +883,6 @@
     }
   }
 
-  /***********************
-   * SNSシェア
-   ***********************/
   function getShareUrl(){
     const href = location.href;
     if(href.startsWith("file:")) return "";
@@ -901,9 +930,6 @@
     lineLink.href = "https://line.me/R/msg/text/?" + encodeURIComponent(ta.value);
   }
 
-  /***********************
-   * 状態
-   ***********************/
   let QUESTION_BANK = [];
   let answers = [];
   let currentPage = 0;
@@ -1028,9 +1054,6 @@
     if(e.target?.matches('input[type="radio"]')) updateAnsweredInfo();
   });
 
-  /***********************
-   * 結果表示
-   ***********************/
   function showResult(){
     const scoresHalf = {};
     TYPES.forEach(t => scoresHalf[t.id] = 0);
@@ -1042,25 +1065,34 @@
     const topTypes = TYPES.filter(t => scoresHalf[t.id] === maxHalf);
     const maxPossibleHalf = PICK_PER_TYPE * SCORE_HALF.maru;
 
-    // 画面切替
     document.getElementById("quizScreen").style.display = "none";
     document.getElementById("resultScreen").style.display = "block";
 
-    // トップ表示
     document.getElementById("topSummary").textContent =
       topTypes.length === 1
         ? `あなたの最も強い傾向は「${topTypes[0].name}」です（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`
         : `同点のトップが複数あります：${topTypes.map(t=>t.name).join("・")}（${fmtHalfScore(maxHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点）`;
 
-    document.getElementById("topCards").innerHTML = topTypes.map(t => `
-      <div class="topCard">
-        <img class="topImg" src="${t.img}" alt="${escapeHtml(t.name)}" onerror="this.style.display='none'">
-        <p class="topName">${escapeHtml(t.name)}</p>
-        <p class="topScore">${fmtHalfScore(scoresHalf[t.id])} / ${fmtHalfScore(maxPossibleHalf)} 点</p>
-      </div>
-    `).join("");
+    document.getElementById("topCards").innerHTML = topTypes.map(t => {
+      const desc = TYPE_DESCRIPTIONS[t.id] || {};
+      const descHtml = desc.trait ? `
+        <div class="typeDescBox">
+          <span class="typeDescLabel trait">✨ 特性</span>
+          <p class="typeDescText">${desc.trait}</p>
+          <span class="typeDescLabel work">💼 向いている副業</span>
+          <p class="typeDescText">${desc.work}</p>
+        </div>
+      ` : "";
+      return `
+        <div class="topCard">
+          <img class="topImg" src="${t.img}" alt="${escapeHtml(t.name)}" onerror="this.style.display='none'">
+          <p class="topName">${escapeHtml(t.name)}</p>
+          <p class="topScore">${fmtHalfScore(scoresHalf[t.id])} / ${fmtHalfScore(maxPossibleHalf)} 点</p>
+          ${descHtml}
+        </div>
+      `;
+    }).join("");
 
-    // スコア表
     const rows = TYPES
       .map(t => ({ ...t, scoreHalf: scoresHalf[t.id] }))
       .sort((a,b) => b.scoreHalf - a.scoreHalf);
@@ -1084,12 +1116,10 @@
       `;
     }).join("");
 
-    // シェアUI
     const topForShare = topTypes.map(t => ({ name:t.name, scoreHalf:scoresHalf[t.id] }));
     const rowsForShare = rows.map(r => ({ name:r.name, scoreHalf:r.scoreHalf }));
     setShareUI(topForShare, rowsForShare, maxPossibleHalf);
 
-    // GASへ保存（バックグラウンド）
     (async () => {
       const scores = {};
       TYPES.forEach(t => { scores[t.id] = (scoresHalf[t.id]||0) / 2; });
@@ -1108,9 +1138,6 @@
     document.getElementById("resultScreen").scrollIntoView({ behavior:"smooth" });
   }
 
-  /***********************
-   * 画面制御
-   ***********************/
   function startQuiz(){
     QUESTION_BANK = buildQuestionBank();
     answers = new Array(QUESTION_BANK.length).fill(null);
