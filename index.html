@@ -286,6 +286,13 @@
       text-align:center;
       padding: 4px 0 2px;
     }
+    .result-guide{
+      font-size:0.82rem;
+      color:var(--muted);
+      text-align:center;
+      margin-top:4px;
+      margin-bottom:2px;
+    }
     .resultTop h2{
       margin:0 0 6px;
       font-size: 1.25rem;
@@ -453,13 +460,23 @@
     }
 
     @media (max-width: 640px){
-      body{ padding: 14px; }
+      body{ padding: 8px; }
+      .container{ padding: 12px; border-radius: 10px; }
+      .card{ padding: 12px; border-radius: 12px; }
+      .topCard{ border: none; padding: 8px; }
+      .topCards{ gap: 6px; }
+      .typeDescBox{ padding: 10px 12px; }
+      .scoreTable th, .scoreTable td{ padding: 7px 8px; font-size: .88rem; }
+      .shareBox{ padding: 10px 12px; }
       #startScreen h1{ font-size: 1.6rem; }
       .start-btn{ padding: 14px 40px; font-size: 1rem; }
       .choice{ min-width: 140px; }
       .btnrow{ flex-direction: column; }
+      #nextBtn{ order: -1; }
+      #submitBtn{ order: -1; }
       .shareButtons{ grid-template-columns: 1fr 1fr; }
-      .topImg{ height: 160px; }
+      .quickShareBtns{ grid-template-columns: 1fr 1fr; }
+      .topImg{ height: 150px; }
     }
   </style>
 </head>
@@ -550,6 +567,7 @@
       <section class="card">
         <div class="resultTop">
           <h2>診断結果</h2>
+          <p class="result-guide">結果から1番点数が高かったタイプの説明文が表示されます</p>
           <p class="subtitle" id="topSummary"></p>
         </div>
 
@@ -558,8 +576,8 @@
         <table class="scoreTable" id="scoreTable">
           <thead>
             <tr>
-              <th style="width:220px;">タイプ</th>
-              <th style="width:160px;">スコア（/7）</th>
+              <th></th>
+              <th>点数</th>
               <th>割合</th>
             </tr>
           </thead>
@@ -567,8 +585,7 @@
         </table>
 
         <div class="shareBox" id="shareBox">
-          <h3 class="shareTitle">シェア用テキスト</h3>
-          <p class="shareHelp">自動生成された文章をそのまま投稿できます（必要なら編集OK）</p>
+
 
           <textarea id="shareText" class="shareText" rows="7"></textarea>
 
@@ -586,6 +603,9 @@
 
         <p class="note" style="text-align:center;">
           ※これは簡易診断です。あくまで「傾向」としてご活用ください。
+        </p>
+        <p class="note result-disclaimer" style="text-align:center; margin-top:10px;">
+          診断ツールは9つのタイプのうちあなたの傾向が強いものを表示します。正解や不正解はありません。
         </p>
       </section>
     </div>
@@ -1101,12 +1121,7 @@
       const pct = Math.round(r.scoreHalf / maxPossibleHalf * 100);
       return `
         <tr>
-          <td>
-            <div class="typeCell">
-              <img class="typeIcon" src="${r.img}" alt="${escapeHtml(r.name)}" onerror="this.style.display='none'">
-              <strong>${escapeHtml(r.name)}</strong>
-            </div>
-          </td>
+          <td><strong>${escapeHtml(r.name)}</strong></td>
           <td>${fmtHalfScore(r.scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)} 点</td>
           <td>
             <div class="bar"><div style="width:${pct}%"></div></div>
@@ -1158,3 +1173,4 @@
 </script>
 </body>
 </html>
+                                              
