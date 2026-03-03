@@ -221,12 +221,12 @@
     .qtext{ margin:0; font-size: 1rem; }
     .choices{
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+      flex-direction:column;
+      gap:8px;
     }
     .choice{
-      flex:1;
-      min-width: 180px;
+      flex:none;
+      width:100%;
       display:flex;
       gap:10px;
       align-items:center;
@@ -470,7 +470,7 @@
       .shareBox{ padding: 10px 12px; }
       #startScreen h1{ font-size: 1.6rem; }
       .start-btn{ padding: 14px 40px; font-size: 1rem; }
-      .choice{ min-width: 140px; }
+      /* .choice は常に縦並びのため min-width 指定不要 */
       .btnrow{ flex-direction: column; }
       #nextBtn{ order: -1; }
       #submitBtn{ order: -1; }
