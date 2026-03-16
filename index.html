@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>じぶん診断J</title>
+  <title>じぶん診断</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -318,39 +318,6 @@
       border-radius: 14px;
       text-align: left;
     }
-    .typeDescHead{
-      margin: 0 0 10px;
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: .02em;
-      color: #6e5242;
-    }
-    .typeDescCols{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    @media(max-width:640px){
-      .typeDescCols{ grid-template-columns: 1fr; }
-    }
-    .typeDescList{
-      margin: 0;
-      padding-left: 1.1em;
-      color: var(--text);
-      font-size: .94rem;
-      line-height: 1.75;
-    }
-    .typeDescList li{ margin: 0 0 6px; }
-    .typeDescList li:last-child{ margin-bottom: 0; }
-    .typeDescList li.good::marker{ color: #b07a66; }
-    .typeDescList li.bad::marker{ color: #b85b6b; }
-    .typeDescJobs{
-      margin: 6px 0 0;
-      font-size: .94rem;
-      line-height: 1.75;
-      color: var(--text);
-    }
     .typeDescLabel{
       display: inline-block;
       margin-bottom: 6px;
@@ -360,17 +327,13 @@
       font-weight: 700;
       letter-spacing: .04em;
     }
-    .typeDescLabel.good{
-      background: #f6eee8;
-      color: #8f5f48;
+    .typeDescLabel.trait{
+      background: #f5ede8;
+      color: #9a6a52;
     }
-    .typeDescLabel.bad{
-      background: #f6e7ea;
-      color: #8a4e5c;
-    }
-    .typeDescLabel.jobs{
-      background: #f2ece7;
-      color: #6e5242;
+    .typeDescLabel.work{
+      background: #f0ecf5;
+      color: #7a6090;
     }
     .typeDescText{
       margin: 0 0 12px;
@@ -522,12 +485,12 @@
 <div class="container">
 
   <div id="startScreen">
-    <h1>じぶん診断J</h1>
+    <h1>じぶん診断簡易バージョン</h1>
     <p class="start-tagline">あなたの「傾向」を見つける9タイプ診断</p>
 
     <img class="start-hero"
          src="main.png"
-         alt="じぶん診断J"
+         alt="じぶん診断"
          onerror="this.style.display='none'">
 
     <div class="start-cards">
@@ -561,7 +524,7 @@
 
   <div id="quizScreen">
     <header class="quiz-header">
-      <h1>じぶん診断J</h1>
+      <h1>じぶん診断</h1>
       <p class="subtitle">〇 / △ / ×で答える（各タイプから7問ずつランダム出題）</p>
       <span class="pill">配点：〇=1点 / △=0.5点 / ×=0点（各タイプ満点7点）</span>
     </header>
@@ -597,7 +560,7 @@
 
   <div id="resultScreen">
     <header class="quiz-header">
-      <h1>じぶん診断J</h1>
+      <h1>じぶん診断</h1>
     </header>
 
     <div class="grid">
@@ -651,7 +614,7 @@
 </div><!-- /.container -->
 
 <script>
-  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzOJ8UBM5g6i04KNEsbInVspGdBtnvG_GduQRATk14ezx-l8lEdbhsJuM1yCwb6jzL5/exec";
+  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyEwgjAekvRcG9BOv5ZZbm0WJSjk3MioFNifqcGehiysfmt-XVL71dKU8rRoiUGPxTO/exec";
 
   const TYPES = [
     { id:"silver",    name:"シルバータイプ",   img:"silver.png" },
@@ -781,165 +744,40 @@
    ***********************/
   const TYPE_DESCRIPTIONS = {
     silver: {
-      headline: "正しさを大事にする責任感",
-      pros: [
-        "丁寧で正確さを追求する。",
-        "「ちゃんとやる」が当たり前で、信頼されやすい。",
-        "表では気を抜かない。"
-      ],
-      cons: [
-        "小さなミスでも気になる。",
-        "完璧を求めすぎて、内心イライラしてしまう。"
-      ],
-      jobs: [
-        "教育・先生",
-        "接客・サービス（飲食など）",
-        "点検・品質チェック（検査/安全管理など）"
-      ]
+      trait: "見えないところも手を抜かない完璧主義。ルールや計画を重んじます。",
+      work:  "緻密な作業や見直しが得意なため、マニュアルに沿った<strong>コーディング</strong>や、既存サイトの<strong>保守・更新・経理事務</strong>などが得意です。また、指導力もあるため、Webスキルの<strong>メンターや講師業</strong>にも向いています。"
     },
-
     pink: {
-      headline: "人のために動く奉仕の心",
-      pros: [
-        "面倒見が良い。",
-        "気配り力が高く、「大丈夫？」と自然に言える。",
-        "感謝されることがエネルギー源。"
-      ],
-      cons: [
-        "感謝を期待し見返りを求める。",
-        "嫌われたくないという気持ちが大きく、断れない。"
-      ],
-      jobs: [
-        "医療・福祉",
-        "ブライダル・イベント運営",
-        "子ども・家庭のサポート（保育/支援など）"
-      ]
+      trait: "人に尽くすお世話好き。数字や売上よりも「感謝されること」にやりがいを感じます。",
+      work:  "1人で黙々と作業するより、人と関わる仕事が向いています。クライアントに寄り添う<strong>オンライン秘書</strong>として、SNSのコメント返信代行やちょっとした画像修正など、相手の「困った」を先回りして助けるホスピタリティあふれる業務が最適です。"
     },
-
     gold: {
-      headline: "成果を出すことに燃える魂",
-      pros: [
-        "効率的で、説得力・実行力がある。",
-        "プレゼン能力が高く、周囲のモチベーションもUP。",
-        "向上心が高い。"
-      ],
-      cons: [
-        "失敗したくなくて逃げたくなる。",
-        "他者からの評価が気になるし指摘されたくない。"
-      ],
-      jobs: [
-        "営業・販売",
-        "企画・プロデュース",
-        "発信・広報（SNS/インフルエンサーなど）"
-      ]
+      trait: "目標達成に向けて効率よく動く努力家。カリスマ性があり自己PRが得意です。",
+      work:  "営業職やマーケティング視点を持った仕事。クリック率などの数字を追う<strong>広告バナー制作</strong>や、売上にコミットする<strong>SNS運用代行</strong>などで成果を出すのが得意です。"
     },
-
     purple: {
-      headline: "自分らしく生きたい個性",
-      pros: [
-        "センスや独自の世界観がある。",
-        "深い気持ちを言葉や作品で表現できる。",
-        "周りの感情や痛みに共感できる。"
-      ],
-      cons: [
-        "こだわりが強く妥協したくない。",
-        "気分に波があるのでとことん落ち込むことがある。"
-      ],
-      jobs: [
-        "企画・クリエイティブ",
-        "美容・ファッション",
-        "文化・アート（保存/修復など）"
-      ]
+      trait: "独自の世界観と豊かな感受性を持つアーティスト。組織の枠にはまるのが苦手です。",
+      work:  "既存のテンプレートを使わない、ゼロから生み出す<strong>Webデザイン</strong>やイラスト・ロゴ制作など、クリエイティブに特化した<strong>フリーランス</strong>。自分のセンスや感性をそのまま商品にする働き方が向いています。"
     },
-
     navy: {
-      headline: "知識を武器にする探究心",
-      pros: [
-        "ハマると集中力を発揮する。",
-        "興味のある分野であればとことん調査し分析できる。",
-        "他人の意見に振り回されない。"
-      ],
-      cons: [
-        "情報で満足し行動しない。",
-        "興味がないと感情が出ないし他者との距離も取りがち。"
-      ],
-      jobs: [
-        "研究・開発",
-        "データ・分析（気象/IT/統計など）",
-        "歴史・学術（専門分野を深掘りする仕事）"
-      ]
+      trait: "好きなことに没頭し、とことん深掘りするオタク（マニア）気質。人間関係は少し苦手です。",
+      work:  "対人コミュニケーションよりも、1人でPCに向かう仕事。データ分析を活かした<strong>UI/UXデザイン</strong>、論理的思考が必要な<strong>プログラミング</strong>、または専門知識を活かした<strong>マニアックな特化型ブログの運営（アフィリエイト）</strong>などが適職です。"
     },
-
     green: {
-      headline: "安心できる環境を守る底力",
-      pros: [
-        "協調性があり、チームプレイ向き。",
-        "リスク管理が得意でトラブルを予測・対応できる。",
-        "最後までやり抜く力がある。"
-      ],
-      cons: [
-        "心配しすぎて疑い深くなる。",
-        "自分の判断に自信が持てないと強い意見に流されがち。"
-      ],
-      jobs: [
-        "事務・サポート",
-        "公務員（市役所など）",
-        "カスタマーサポート"
-      ]
+      trait: "慎重でリスクヘッジが得意な日本人タイプ。自分でゼロから決断するのは少し不安を感じます。",
+      work:  "失敗が少なく確実な作業ができるため、<strong>校正（デザインのチェック）</strong>、データ入力、指示を受けて動く<strong>オンライン秘書</strong>がぴったりです。自分でゴリゴリ集客するより、「ココナラ」や「クラウドワークス」にスキルを出品して待つスタイルが安心できます。"
     },
-
     yellow: {
-      headline: "楽しさを追い求める冒険心",
-      pros: [
-        "楽しめるアイデアが豊富。",
-        "ムードメーカーとして場を明るくできる。",
-        "ミスをしても落ち込まない。"
-      ],
-      cons: [
-        "集中力がなく継続できない。",
-        "やりたいことが多すぎてあれもこれもと散らかりがち。"
-      ],
-      jobs: [
-        "営業・販売",
-        "旅行・プランナー",
-        "体験・イベント（ワークショップ運営など）"
-      ]
+      trait: "好奇心旺盛で行動力抜群。ただし長期的な計画や重い義務感は苦手です。",
+      work:  "フットワークの軽さと企画力を活かした<strong>イベント企画・運営</strong>や、トレンドを素早く取り入れる<strong>SNS運用代行</strong>。長期の重い案件よりも、短期間でサクサク終わるバナー制作などを複数掛け持ちするパラレルワークが得意です。"
     },
-
     red: {
-      headline: "強さで引っ張るリーダー肌",
-      pros: [
-        "決断が早く、責任感がある。",
-        "「言いたいことをハッキリ言う」姿が信頼を集める。",
-        "困難に立ち向かう力強さがある。"
-      ],
-      cons: [
-        "弱音を吐けない。",
-        "感情を見せるのが苦手で、誤解されやすい。"
-      ],
-      jobs: [
-        "リーダー・マネジメント",
-        "スポーツ・指導（コーチなど）",
-        "イベント・プロデュース"
-      ]
+      trait: "決断力があり、自分で主導権を握りたいリーダー気質。忖度なく正しい意見が言えます。",
+      work:  "自分が手を動かすだけでなく、チームをまとめる<strong>Webディレクター</strong>や、クライアントに「こうした方が売れますよ」とズバッと提案できる<strong>ビジネスコンサルタント</strong>。自分でコミュニティや組織を立ち上げる働き方が向いています。"
     },
-
     turquoise: {
-      headline: "穏やかに生きたい平和主義",
-      pros: [
-        "多角的に考えられるバランス力。",
-        "誰とでも自然に合わせられる、空気読みの達人。",
-        "忍耐力がある。"
-      ],
-      cons: [
-        "争うことになるなら、自分の意見は飲み込んでしまう。",
-        "マイペースになりがち。"
-      ],
-      jobs: [
-        "医療・福祉",
-        "相談・カウンセリング",
-        "動物・自然に関わる仕事（アニマルセラピーなど）"
-      ]
+      trait: "争いを好まない癒やし系。相手を否定せず、じっくり話を聞く（傾聴）のが得意です。",
+      work:  "数字や納期に追われる競争の激しい仕事はNG。クライアントの想いをじっくりヒアリングして作る<strong>名刺や個人サイトの制作</strong>や、コミュニティの穏やかな<strong>相談役・サポート役</strong>。長期的なプロジェクトをマイペースに進めるのが向いています。"
     }
   };
 
@@ -1073,10 +911,10 @@
   function buildShareText(topTypes, rows, maxPossibleHalf){
     const url = getShareUrl();
     const topLine = (topTypes.length === 1)
-      ? `【じぶん診断J】結果：${topTypes[0].name}（${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`
-      : `【じぶん診断J】結果：${topTypes.map(t=>t.name).join("・")}`（同点トップ ${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`;
+      ? `【じぶん診断】結果：${topTypes[0].name}（${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`
+      : `【じぶん診断】結果：${topTypes.map(t=>t.name).join("・")}（同点トップ ${fmtHalfScore(topTypes[0].scoreHalf)} / ${fmtHalfScore(maxPossibleHalf)}点）`;
     const scoreLines = rows.map(r => `・${r.name}：${fmtHalfScore(r.scoreHalf)}点`).join("\n");
-    const parts = [ topLine, "", "スコア一覧", scoreLines, "", "#じぶん診断J #診断 #自己分析" ];
+    const parts = [ topLine, "", "スコア一覧", scoreLines, "", "#じぶん診断 #診断 #自己分析" ];
     if(url) parts.push("", url);
     return parts.join("\n");
   }
@@ -1093,7 +931,7 @@
       nativeBtn.style.display = "inline-flex";
       nativeBtn.onclick = async () => {
         try{
-          await navigator.share({ title:"じぶん診断J", text:ta.value, url:getShareUrl()||undefined });
+          await navigator.share({ title:"じぶん診断", text:ta.value, url:getShareUrl()||undefined });
         }catch(e){}
       };
     }else{
@@ -1257,23 +1095,12 @@
 
     document.getElementById("topCards").innerHTML = topTypes.map(t => {
       const desc = TYPE_DESCRIPTIONS[t.id] || {};
-      const list = (arr, cls) => (Array.isArray(arr) ? arr.map(s => `<li class="${cls}">${escapeHtml(s)}</li>`).join("") : "");
-      const jobs = (Array.isArray(desc.jobs) && desc.jobs.length) ? `<p class="typeDescJobs">${desc.jobs.map(escapeHtml).join(" / ")}</p>` : "";
-      const descHtml = desc.headline ? `
+      const descHtml = desc.trait ? `
         <div class="typeDescBox">
-          <p class="typeDescHead">${escapeHtml(desc.headline)}</p>
-          <div class="typeDescCols">
-            <div class="typeDescCol">
-              <span class="typeDescLabel good">長所</span>
-              <ul class="typeDescList">${list(desc.pros, "good")}</ul>
-            </div>
-            <div class="typeDescCol">
-              <span class="typeDescLabel bad">短所</span>
-              <ul class="typeDescList">${list(desc.cons, "bad")}</ul>
-            </div>
-          </div>
-          <span class="typeDescLabel jobs">向いている分野</span>
-          ${jobs}
+          <span class="typeDescLabel trait">✨ 特性</span>
+          <p class="typeDescText">${desc.trait}</p>
+          <span class="typeDescLabel work">💼 向いている副業</span>
+          <p class="typeDescText">${desc.work}</p>
         </div>
       ` : "";
       return `
@@ -1315,8 +1142,6 @@
       const device = detectDeviceBrowserOS();
       const geo = await collectGeo();
       await postToGAS({
-        project: "jibunshindan-junior",
-        appName: "じぶん診断J",
         topTypes: topTypes.map(t => t.name),
         scores,
         geo,
